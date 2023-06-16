@@ -1,7 +1,6 @@
 # ase
 This is a shared code repository for Group 3's Applied Software Engineering (ASE) project
 
-<<<<<<< HEAD
 How to run car python file to create database
 1. python3.11 car.py
 
@@ -29,4 +28,3 @@ How to access database and tables through sqlite
 2. pip3.11 install pipenv [If you are using Codio]
 3. flask --app flaskr run --debug --host=0.0.0.0
 4. Access it from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
->>>>>>> 49d5c5143faa2d95cd61d839c8e2937d332d23a5
