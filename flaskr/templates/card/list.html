@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Payment Cards{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('card.create') }}">Add New Card</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for card in cards %}
+    <article class="card">
+      <header>
+        <div>
+          <h1>{{ card['description'] }}</h1>
+          <div class="about">Created on {{ card['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        {% if g.user['id'] == card['user_id'] %}
+          <a class="action" href="{{ url_for('card.update', id=card['id']) }}">Edit Card</a>
+        {% endif %}
+      </header>
+      <table border=1>
+        <tr>
+          <td>Name on Card</td>
+          <td>{{ card['name'] }}</td>
+        </tr>
+        <tr>
+          <td>Card Number</td>
+          <td>{{ card['number'] }}</td>
+        </tr>
+        <tr>
+          <td>Expiry Date</td>
+          <td>{{ card['expiry_month'] ~ "/" ~ card['expiry_year']}}</td>
+        </tr>
+        <tr>
+          <td>CVE</td>
+          <td>{{ card['cve'] }}</td>
+        </tr>
+      </table>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

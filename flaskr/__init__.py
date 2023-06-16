@@ -40,8 +40,8 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import blog
-    app.register_blueprint(blog.bp)
+    from . import card
+    app.register_blueprint(card.bp)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with

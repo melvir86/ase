@@ -10,6 +10,13 @@
     <input name="username" id="username" required>
     <label for="password">Password</label>
     <input type="password" name="password" id="password" required>
-    <input type="submit" value="Log In">
+    <label for="role">Role</label>
+    <select name="role" id="role">
+    <option value="provider">Provider</option>
+    <option value="driver">Driver</option>
+    <option value="customer">Customer</option>
+    </select>
+    <br/>
+    <input type="submit" value="Log In to App">
   </form>
 {% endblock %}
