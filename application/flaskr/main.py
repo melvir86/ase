@@ -1,7 +1,8 @@
 from flask import Flask, render_template
-import folium
 from sqlmodel import Session, select, create_engine
+from collections.abc import Mapping
 import sqlmodel
+import folium
 from cars import Car
 
 app = Flask(__name__)
