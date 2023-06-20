@@ -1,9 +1,7 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<navtop>
 <h1>AlbaniaSuperUberApp!</h1>
-</navtop>
 <nav>
     {% if g.user %}
      Welcome &nbsp;{{ g.user['username'] }}!
