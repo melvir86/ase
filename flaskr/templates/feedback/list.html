@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Feedbacks{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('feedback.create') }}">Add New Feedback</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for feedback in feedbacks %}
+    <article class="feedback">
+      <header>
+        <div>
+          <h1>{{ feedback['description'] }}</h1>
+          <div class="about">Created on {{ feedback['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        {% if g.user['id'] == feedback['user_id'] %}
+          <a class="action" href="{{ url_for('feedback.update', id=feedback['id']) }}">Edit Feedback</a>
+        {% endif %}
+      </header>
+      <table border=1>
+        <tr>
+          <td>Provided Feedback</td>
+          <td>{{ feedback['feedback'] }}</td>
+        </tr>
+      </table>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

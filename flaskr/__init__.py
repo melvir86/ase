@@ -43,6 +43,9 @@ def create_app(test_config=None):
     from . import card
     app.register_blueprint(card.bp)
 
+    from . import feedback
+    app.register_blueprint(feedback.bp)
+
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
     # app.route, while giving the blog blueprint a url_prefix, but for

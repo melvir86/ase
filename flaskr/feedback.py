@@ -6,21 +6,21 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-bp = Blueprint('card', __name__)
+bp = Blueprint('feedback', __name__)
 
 @bp.route('/')
 def index():
     return render_template('card/index.html')
 
-@bp.route('/listcard')
-def listcard():
+@bp.route('/listfeedback')
+def listfeedback():
     db = get_db()
-    cards = db.execute(
+    feedbacks = db.execute(
         'SELECT *'
-        ' FROM card c JOIN user u ON c.user_id = u.id'
+        ' FROM feedback f JOIN user u ON f.user_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
-    return render_template('card/list.html', cards=cards)
+    return render_template('feedback/list.html', feedbacks=feedbacks)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
