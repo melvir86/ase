@@ -10,6 +10,9 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 3. pip install --upgrade urllib3
 4. pip install --upgrade urllib3 chardet
 5. pip install requests==2.26.0
+6. pip install geopy
+
+
 
 # Avoiding possible conflicts
 6. Delete existing database.db file on application/flaskr folder if it already exists prior to moving on
