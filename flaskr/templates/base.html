@@ -1,20 +1,25 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<navtop>
+<h1>AlbaniaSuperUberApp!</h1>
+</navtop>
 <nav>
-  <h1>AlbaniaSuperUberApp!</h1>
-    <a href="{{ url_for('auth.logout') }}">Make Booking</a>
-    &nbsp;<a href="{{ url_for('auth.logout') }}">List all Cars</a>
-    &nbsp;<a href="{{ url_for('auth.logout') }}">Booking History</a>
-    &nbsp;<a href="{{ url_for('card.list') }}">Manage Cards</a>
     {% if g.user %}
      Welcome &nbsp;{{ g.user['username'] }}!
-     <br/> Role: {{ g.user['role'] }}
+     &nbsp;Role: {{ g.user['role'] }}
       <a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       &nbsp;<a href="{{ url_for('auth.register') }}">Register</a>
       &nbsp;<a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
+    <br/>
+    &nbsp;Features:
+    &nbsp;<a href="{{ url_for('auth.logout') }}">Make Booking</a>
+    &nbsp;<a href="{{ url_for('auth.logout') }}">List all Cars</a>
+    &nbsp;<a href="{{ url_for('auth.logout') }}">Booking History</a>
+    &nbsp;<a href="{{ url_for('card.list') }}">Payment Cards</a>    
+
 </nav>
 <section class="content">
   <header>

@@ -14,6 +14,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: serif;
   color: #377ba8;
   margin: 1rem 0;
+  display: inline;
 }
 
 a {
@@ -27,8 +28,7 @@ hr {
 
 nav {
   background: lightgray;
-  display: flex;
-  align-items: center;
+  text-align: right;
   padding: 0 0.5rem;
 }
 
