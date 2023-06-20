@@ -1,28 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Card{% endblock %}</h1>
+  <h1>{% block title %}New Feedback{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="name">Name on Card</label>
-    <input name="name" id="name" value="{{ request.form['name'] }}" required>
-    <label for="number">Card Number</label>
-    <input name="number" id="number" value="{{ request.form['number'] }}" required>
-    <label for="expiry_month">Expiry Month</label>
-    <input name="expiry_month" id="expiry_month" value="{{ request.form['expiry_month'] }}" required>
-    <label for="expiry_year">Expiry Year</label>
-    <input name="expiry_year" id="expiry_year" value="{{ request.form['expiry_year'] }}" required>
-    <label for="cve">CVE</label>
-    <input name="cve" id="cve" value="{{ request.form['cve'] }}" required>
-    <label for="description">Describe/Tag this Card</label>
+    <label for="feedback">Your Feedback</label>
+    <textarea id="feedback" name="feedback" rows="4" cols="50"></textarea>
+    <label for="description">Describe/Tag your Feedback</label>
     <input name="description" id="description" value="{{ request.form['description'] }}" required>
-    <label for="status">Status</label>
-    <select name="status" id="status">
-    <option value="active">Active</option>
-    <option value="inactive">Inactive</option>
-    </select>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

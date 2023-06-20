@@ -12,8 +12,8 @@ bp = Blueprint('card', __name__)
 def index():
     return render_template('card/index.html')
 
-@bp.route('/listcard')
-def listcard():
+@bp.route('/listCard')
+def listCard():
     db = get_db()
     cards = db.execute(
         'SELECT *'
@@ -22,9 +22,9 @@ def listcard():
     ).fetchall()
     return render_template('card/list.html', cards=cards)
 
-@bp.route('/create', methods=('GET', 'POST'))
+@bp.route('/createCard', methods=('GET', 'POST'))
 @login_required
-def create():
+def createCard():
     if request.method == 'POST':
         name = request.form['name']
         number = request.form['number']
@@ -50,7 +50,7 @@ def create():
                 (g.user['id'], name, number, expiry_month, expiry_year, cve, description, status)
             )
             db.commit()
-            return redirect(url_for('card.list'))
+            return redirect(url_for('card.listCard'))
 
     return render_template('card/create.html')
 
@@ -70,9 +70,9 @@ def get_card(id, check_author=True):
 
     return post
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@bp.route('/<int:id>/updateCard', methods=('GET', 'POST'))
 @login_required
-def update(id):
+def updateCard(id):
     card = get_card(id)
 
     if request.method == 'POST':
@@ -100,15 +100,15 @@ def update(id):
                 (name, number, expiry_month, expiry_year, cve, description, status, id)
             )
             db.commit()
-            return redirect(url_for('card.list'))
+            return redirect(url_for('card.listCard'))
 
     return render_template('card/update.html', card=card)
 
-@bp.route('/<int:id>/delete', methods=('POST',))
+@bp.route('/<int:id>/deleteCard', methods=('POST',))
 @login_required
-def delete(id):
+def deleteCard(id):
     get_card(id)
     db = get_db()
     db.execute('DELETE FROM card WHERE id = ?', (id,))
     db.commit()
-    return redirect(url_for('card.list'))
+    return redirect(url_for('card.listCard'))

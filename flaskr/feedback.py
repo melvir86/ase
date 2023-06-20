@@ -12,8 +12,8 @@ bp = Blueprint('feedback', __name__)
 def index():
     return render_template('card/index.html')
 
-@bp.route('/listfeedback')
-def listfeedback():
+@bp.route('/listFeedback')
+def listFeedback():
     db = get_db()
     feedbacks = db.execute(
         'SELECT *'
@@ -22,37 +22,32 @@ def listfeedback():
     ).fetchall()
     return render_template('feedback/list.html', feedbacks=feedbacks)
 
-@bp.route('/create', methods=('GET', 'POST'))
+@bp.route('/createFeedback', methods=('GET', 'POST'))
 @login_required
-def create():
+def createFeedback():
     if request.method == 'POST':
-        name = request.form['name']
-        number = request.form['number']
-        expiry_month = request.form['expiry_month']
-        expiry_year = request.form['expiry_year']
-        cve = request.form['cve']
         description = request.form['description']
-        status = request.form['status']
+        feedback = request.form['feedback']
         error = None
 
-        if not name:
-            error = 'Name is required.'
-        if not number:
-            error = 'Number is required.'
+        if not description:
+            error = 'Description is required.'
+        if not feedback:
+            error = 'Feedback is required.'
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO card (user_id, name, number, expiry_month, expiry_year, cve, description, status)'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                (g.user['id'], name, number, expiry_month, expiry_year, cve, description, status)
+                'INSERT INTO feedback (user_id, description, feedback)'
+                ' VALUES (?, ?, ?)',
+                (g.user['id'], description, feedback)
             )
             db.commit()
-            return redirect(url_for('card.list'))
+            return redirect(url_for('feedback.listFeedback'))
 
-    return render_template('card/create.html')
+    return render_template('feedback/create.html')
 
 def get_card(id, check_author=True):
     post = get_db().execute(
@@ -70,45 +65,56 @@ def get_card(id, check_author=True):
 
     return post
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+def get_feedback(id, check_author=True):
+    feedback = get_db().execute(
+        'SELECT *'
+        ' FROM feedback f JOIN user u ON f.user_id = u.id'
+        ' WHERE f.id = ?',
+        (id,)
+    ).fetchone()
+
+    if feedback is None:
+        abort(404, f"Feedback id {id} doesn't exist.")
+
+    if check_author and feedback['user_id'] != g.user['id']:
+        abort(403)
+
+    return feedback
+
+@bp.route('/<int:id>/updateFeedback', methods=('GET', 'POST'))
 @login_required
-def update(id):
-    card = get_card(id)
+def updateFeedback(id):
+    feedback = get_feedback(id)
 
     if request.method == 'POST':
-        name = request.form['name']
-        number = request.form['number']
-        expiry_month = request.form['expiry_month']
-        expiry_year = request.form['expiry_year']
-        cve = request.form['cve']
         description = request.form['description']
-        status = request.form['status']
+        feedback = request.form['feedback']
         error = None
 
-        if not name:
-            error = 'Name is required.'
-        if not number:
-            error = 'Number is required.'
+        if not description:
+            error = 'Description is required.'
+        if not feedback:
+            error = 'Feedback is required.'
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE card SET name = ?, number = ?, expiry_month = ?, expiry_year = ?, cve = ?, description = ?, status = ?'
+                'UPDATE feedback SET description = ?, feedback = ?'
                 ' WHERE id = ?',
-                (name, number, expiry_month, expiry_year, cve, description, status, id)
+                (description, feedback, id)
             )
             db.commit()
-            return redirect(url_for('card.list'))
+            return redirect(url_for('feedback.listFeedback'))
 
-    return render_template('card/update.html', card=card)
+    return render_template('feedback/update.html', feedback=feedback)
 
-@bp.route('/<int:id>/delete', methods=('POST',))
+@bp.route('/<int:id>/deleteFeedback', methods=('POST',))
 @login_required
-def delete(id):
-    get_card(id)
+def deleteFeedback(id):
+    get_feedback(id)
     db = get_db()
-    db.execute('DELETE FROM card WHERE id = ?', (id,))
+    db.execute('DELETE FROM feedback WHERE id = ?', (id,))
     db.commit()
-    return redirect(url_for('card.list'))
+    return redirect(url_for('feedback.listFeedback'))

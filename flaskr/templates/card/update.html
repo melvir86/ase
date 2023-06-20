@@ -28,7 +28,7 @@
    <input type="submit" value="Save">
   </form>
   <hr>
-  <form action="{{ url_for('card.delete', id=card['id']) }}" method="post">
+  <form action="{{ url_for('card.deleteCard', id=card['id']) }}" method="post">
     <input class="danger" type="submit" value="Delete this Card" onclick="return confirm('Are you sure?');">
   </form>
 {% endblock %}

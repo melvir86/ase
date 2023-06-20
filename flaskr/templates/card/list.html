@@ -3,7 +3,7 @@
 {% block header %}
   <h1>{% block title %}Payment Cards{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('card.create') }}">Add New Card</a>
+    <a class="action" href="{{ url_for('card.createCard') }}">Add New Card</a>
   {% endif %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
           <div class="about">Created on {{ card['created'].strftime('%Y-%m-%d') }}</div>
         </div>
         {% if g.user['id'] == card['user_id'] %}
-          <a class="action" href="{{ url_for('card.update', id=card['id']) }}">Edit Card</a>
+          <a class="action" href="{{ url_for('card.updateCard', id=card['id']) }}">Edit Card</a>
         {% endif %}
       </header>
       <table border=1>
