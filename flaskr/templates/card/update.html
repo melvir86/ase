@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit "{{ card['description'] }}"{% endblock %}</h1>
+  <h1>{% block title %}Edit "{{ card['description'] }}" Value of status "{{ card['status'] }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -18,6 +18,11 @@
     <input name="cve" id="cve" value="{{ request.form['cve'] or card['cve'] }}" required>
     <label for="description">Describe/Tag this Card</label>
     <input name="description" id="description" value="{{ request.form['description'] or card['description'] }}" required>
+    <label for="status">Status</label>
+    <select name="status" id="status">
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+    </select>
    <input type="submit" value="Save">
   </form>
   <hr>

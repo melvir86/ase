@@ -28,5 +28,15 @@ CREATE TABLE card (
   expiry_year TEXT NOT NULL,
   cve TEXT NOT NULL,
   description TEXT NOT NULL,
+  status TEXT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
+CREATE TABLE feedback (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  description TEXT NOT NULL,
+  feedback TEXT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
