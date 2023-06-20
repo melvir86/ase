@@ -32,6 +32,7 @@ def create():
         expiry_year = request.form['expiry_year']
         cve = request.form['cve']
         description = request.form['description']
+        status = request.form['status']
         error = None
 
         if not name:
@@ -44,9 +45,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO card (user_id, name, number, expiry_month, expiry_year, cve, description)'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
-                (g.user['id'], name, number, expiry_month, expiry_year, cve, description)
+                'INSERT INTO card (user_id, name, number, expiry_month, expiry_year, cve, description, status)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (g.user['id'], name, number, expiry_month, expiry_year, cve, description, status)
             )
             db.commit()
             return redirect(url_for('card.list'))
@@ -81,6 +82,7 @@ def update(id):
         expiry_year = request.form['expiry_year']
         cve = request.form['cve']
         description = request.form['description']
+        status = request.form['status']
         error = None
 
         if not name:
@@ -93,9 +95,9 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE card SET name = ?, number = ?, expiry_month = ?, expiry_year = ?, cve = ?, description = ?'
+                'UPDATE card SET name = ?, number = ?, expiry_month = ?, expiry_year = ?, cve = ?, description = ?, status = ?'
                 ' WHERE id = ?',
-                (name, number, expiry_month, expiry_year, cve, description, id)
+                (name, number, expiry_month, expiry_year, cve, description, status, id)
             )
             db.commit()
             return redirect(url_for('card.list'))

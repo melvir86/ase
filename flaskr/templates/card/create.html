@@ -18,6 +18,11 @@
     <input name="cve" id="cve" value="{{ request.form['cve'] }}" required>
     <label for="description">Describe/Tag this Card</label>
     <input name="description" id="description" value="{{ request.form['description'] }}" required>
+    <label for="status">Status</label>
+    <select name="status" id="status">
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+    </select>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

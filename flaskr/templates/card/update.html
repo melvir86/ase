@@ -18,6 +18,13 @@
     <input name="cve" id="cve" value="{{ request.form['cve'] or card['cve'] }}" required>
     <label for="description">Describe/Tag this Card</label>
     <input name="description" id="description" value="{{ request.form['description'] or card['description'] }}" required>
+    <label for="status">Status</label>
+    <select name="status" id="status">
+        <option value="active" 
+        {% if card['status'] == "active" %} selected {% endif %}>Active</option>
+        <option value="inactive" 
+        {% if card['status'] == "inactive" %} selected {% endif %}>Inactive</option>    
+        </select>
    <input type="submit" value="Save">
   </form>
   <hr>
