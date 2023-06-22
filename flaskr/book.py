@@ -3,11 +3,21 @@ import folium
 import requests
 from geopy.geocoders import Nominatim
 
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, url_for
+)
+from werkzeug.exceptions import abort
+
+from flaskr.auth import login_required
+from flaskr.db import get_db
+
 app = Flask(__name__)
 
 CAR_API_ENDPOINT = 'https://locatecrystal-anitacave-8090.codio-box.uk/api/book'
 
-@app.route('/')
+bp = Blueprint('book', __name__)
+
+@bp.route('/show_map')
 def show_map():
     # Create a map object
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=12)
@@ -15,7 +25,7 @@ def show_map():
     # Render the template that displays the map
     return render_template('map.html', map=map._repr_html_())
 
-@app.route('/book_car', methods=['POST'])
+@bp.route('/book_car', methods=['POST'])
 def book_car():
     if request.method == 'POST':
         current_location = request.form.get('current_location')
