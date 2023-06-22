@@ -41,6 +41,7 @@ CREATE TABLE booking (
   created TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   source TEXT NOT NULL,
   destination TEXT NOT NULL,
+  cost TEXT NOT NULL,
   status TEXT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user (id)
   FOREIGN KEY (car_id) REFERENCES car (id)
@@ -60,8 +61,14 @@ CREATE TABLE car (
 
 -- Preparing sample data before we develop the feature
 
--- INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (1, 'Mazda', '3 Hb', 'Red', '23/06/2023', 'Active');
+-- INSERT INTO user (username, password, role) VALUES ('DriverJohn', 'pbkdf2:sha256:600000$D3xjfdhmDCJdqryz$a1d808145d325d04d4f2715be6876f6829065cbeb32a0824e6b3a998758aa3a8', 'Driver');
 
--- INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (2, 'Mazda', '6', 'Blue', '23/12/2023', 'Active');
+-- INSERT INTO user (username, password, role) VALUES ('DriverRobert', 'pbkdf2:sha256:600000$aDCwIjzhwoJDCpZ2$7d5f165d9263d450bdc092d2969074b51b030285e734d7955ccb84ed199ebfa1', 'Driver');
 
--- INSERT INTO booking (user_id, car_id, source, destination, status) VALUES (3, 1, 'Wembley Park', 'Euston Square', 'Completed');
+-- INSERT INTO user (username, password, role) VALUES ('Mary', 'pbkdf2:sha256:600000$3ZBsWIwwmR8o40VJ$0545998d859e9a967d1bdd0b60076e1a7fe3a3a78e76ec69d1274608341aef12', 'Customer');
+
+INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (1, 'Mazda', '3 Hb', 'Red', '23/06/2023', 'Active');
+
+INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (2, 'Mazda', '6', 'Blue', '23/12/2023', 'Active');
+
+INSERT INTO booking (user_id, car_id, source, destination, cost, status) VALUES (3, 1, 'Wembley Park', 'Euston Square', '$10.50', 'Completed');
