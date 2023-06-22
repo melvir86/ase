@@ -23,7 +23,7 @@ def show_map():
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=12)
 
     # Render the template that displays the map
-    return render_template('map.html', map=map._repr_html_())
+    return render_template('book/map.html', map=map._repr_html_())
 
 @bp.route('/book_car', methods=['POST'])
 def book_car():
