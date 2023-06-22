@@ -9,7 +9,7 @@
 
 {% block content %}
   {% for feedback in feedbacks %}
-    <article class="feedback">
+    <article class="card">
       <header>
         <div>
           <h1>{{ feedback['description'] }}</h1>
@@ -22,8 +22,6 @@
       <br/>
         <b><u>Your Feedback</b></u>
         <p>{{ feedback['feedback'] }}</p>
-        </tr>
-      </table>
     </article>
     {% if not loop.last %}
       <hr>

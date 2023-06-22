@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Your Booking History{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for booking in bookings %}
+    <article class="card">
+      <header>
+        <div>
+          <h1>Booking details of booking that was completed on <b><u>{{ booking['created'].strftime('%Y-%m-%d') }}</b></u></h1>
+        </div>
+      </header>
+      <br/>
+      <table border=1>
+        <tr>
+          <td>Picked up from</td>
+          <td>{{ booking['source'] }}</td>
+        </tr>
+        <tr>
+          <td>Dropped of at</td>
+          <td>{{ booking['destination'] }}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{ booking['status'] }}</td>        
+        </tr>
+      </table>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
