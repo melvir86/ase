@@ -14,6 +14,7 @@ from flaskr.db import get_db
 app = Flask(__name__)
 
 CAR_API_ENDPOINT = 'https://locatecrystal-anitacave-8090.codio-box.uk/api/book'
+CAR_POSITION= 'https://locatecrystal-anitacave-8090.codio-box.uk/api/status'
 
 bp = Blueprint('book', __name__)
 
@@ -21,8 +22,22 @@ bp = Blueprint('book', __name__)
 def show_map():
     # Create a map object
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=12)
+    response = requests.get(CAR_POSITION)
+    if response.status_code == 200:
+        car_positions = response.json().get('car_positions', [])
+        for car in car_positions:
+            latitude = car.get('latitude')
+            longitude = car.get('longitude')
+            place = car.get('place')
+            icon_path = 'https://www.freeiconspng.com/uploads/maps-car-icon-24.png'  
+            icon = folium.CustomIcon(icon_image=icon_path, icon_size=(30, 30))
+            folium.Marker(
+                location=[latitude, longitude],
+                popup=place,
+                icon=icon
+            ).add_to(map)
 
-    # Render the template that displays the map
+    
     return render_template('book/map.html', map=map._repr_html_())
 
 @bp.route('/book_car', methods=['POST'])
