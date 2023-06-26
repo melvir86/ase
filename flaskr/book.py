@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,session
 import folium
 import requests
 from geopy.geocoders import Nominatim
@@ -13,6 +13,7 @@ from flaskr.db import get_db
 
 app = Flask(__name__)
 
+
 CAR_API_ENDPOINT = 'https://localhost-8090.codio-box.uk/api/book'
 CAR_POSITION= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/status'
 
@@ -22,6 +23,7 @@ bp = Blueprint('book', __name__)
 def show_map():
     # Create a map object
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=12)
+    session['booking_success'] = 'False' 
     response = requests.get(CAR_POSITION)
     if response.status_code == 200:
       car_pos = response.json().get('status', [])
@@ -38,7 +40,9 @@ def show_map():
               popup=f"Car ID is : {car_id}",
               icon=icon
           ).add_to(map)
-    return render_template('book/map.html', map=map._repr_html_())
+    booking_success = request.args.get('booking_success', 'False')     
+    return render_template('book/map.html', map=map._repr_html_(), booking_success=booking_success)
+
 
 @bp.route('/book_car', methods=['POST'])
 def book_car():
@@ -70,12 +74,18 @@ def book_car():
             data = response.json()
             car_id = data.get("car_id")
             total_time = data.get("total_time")
+            session['booking_success'] = True
             flash(f"Car booked ! :) Car ID: {car_id}, Total Time: {total_time}")
-            return redirect(url_for('book.show_map'))
+            
+            return redirect(url_for('book.show_map', booking_success='True'))
+
+
         else:
             # Error response
             flash("Failed to book a car.")
-            return redirect(url_for('book.show_map'))
+            session['booking_success'] = 'False'
+            return redirect(url_for('book.show_map', booking_success='False'))
+
 
     return "Invalid request method"
 

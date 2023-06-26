@@ -23,7 +23,11 @@
             <label for="destination">Destination:</label>
             <input type="text" id="destination" name="destination">
             <br>
-            <button type="submit">Book</button>
+            <button type="submit">Book</button><br>
+            <button type="button" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Track Car</button>
+
+
+
         </form>
     </div>
     <div id="map">{{ map | safe }}</div>
