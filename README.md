@@ -11,6 +11,7 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 4. pip3.11 install --upgrade urllib3 chardet
 5. pip3.11 install requests==2.26.0
 6. pip3.11 install folium
+7. pip3.11 install geopy
 
 # Avoiding possible conflicts
 6. Delete existing database.db file on application/flaskr folder if it already exists prior to moving on
