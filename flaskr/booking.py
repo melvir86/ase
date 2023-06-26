@@ -13,11 +13,15 @@ def listBooking():
     db = get_db()
     bookings = db.execute(
         'SELECT *'
-        ' FROM booking b JOIN user u ON b.user_id = u.id'
-        ' ORDER BY created DESC'
+        ' FROM booking b '
+        ' JOIN user u ON b.user_id = u.id'
+        ' JOIN car c ON b.car_id = c.id'
+        ' WHERE b.user_id = ?'
+        ' ORDER BY created DESC',
+        (g.user['id'],)
     ).fetchall()
     return render_template('booking/list.html', bookings=bookings)
-
+  
 @bp.route('/createFeedback', methods=('GET', 'POST'))
 @login_required
 def createFeedback():

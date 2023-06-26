@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Your Booking History{% endblock %}</h1>
+  <h1>{% block title %}Your Jobs History{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  {% for booking in bookings %}
+  {% for job in jobs %}
     <article class="card">
       <header>
         <div>
-          <h1>Booking details of booking that was completed on <b><u>{{ booking['created'].strftime('%Y-%m-%d') }}</b></u></h1>
+          <h1>Details of booking job that was completed on <b><u>{{ job['created'].strftime('%Y-%m-%d') }}</b></u></h1>
         </div>
       </header>
       <br/>
       <table border=1>
         <tr>
           <td>Picked up from</td>
-          <td>{{ booking['source'] }}</td>
+          <td>{{ job['source'] }}</td>
         </tr>
         <tr>
           <td>Dropped of at</td>
-          <td>{{ booking['destination'] }}</td>
+          <td>{{ job['destination'] }}</td>
         </tr>
         <tr>
-          <td>Car Brand & Model</td>
-          <td>{{ booking['brand'] ~ "/" ~ booking['model']}}</td>
+          <td>Your Car Brand & Model</td>
+          <td>{{ job['brand'] ~ "/" ~ job['model']}}</td>
         </tr>
         <tr>
-          <td>Car Colour</td>
-          <td>{{ booking['colour'] }}</td>
+          <td>Your Car Colour</td>
+          <td>{{ job['colour'] }}</td>
         </tr>
         <tr>
           <td>Cost</td>
-          <td>{{ booking['cost'] }}</td>
+          <td>{{ job['cost'] }}</td>
         </tr>
         <tr>
           <td>Status</td>
-          <td>{{ booking['status'] }}</td>        
+          <td>{{ job['status'] }}</td>        
         </tr>
       </table>
     </article>
