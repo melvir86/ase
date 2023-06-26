@@ -13,8 +13,8 @@ from flaskr.db import get_db
 
 app = Flask(__name__)
 
-CAR_API_ENDPOINT = 'https://locatecrystal-anitacave-8090.codio-box.uk/api/book'
-CAR_POSITION= 'https://locatecrystal-anitacave-8090.codio-box.uk/api/status'
+CAR_API_ENDPOINT = 'https://localhost-8090.codio-box.uk/api/book'
+CAR_POSITION= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/status'
 
 bp = Blueprint('book', __name__)
 
@@ -30,7 +30,8 @@ def show_map():
           latitude = currentPosition.get('x')
           longitude = currentPosition.get('y')
           car_id = car.get('id')
-          icon_path = 'https://www.freeiconspng.com/uploads/maps-car-icon-24.png'  
+          print (latitude)
+          icon_path = 'https://www.clipartmax.com/png/middle/196-1961098_car-navigation-maps-for-lovers-of-long-distance-road-google-map-car.png'  
           icon = folium.CustomIcon(icon_image=icon_path, icon_size=(25, 25)) 
           folium.Marker(
               location=[latitude, longitude],
@@ -45,13 +46,10 @@ def book_car():
         current_location = request.form.get('current_location')
         destination = request.form.get('destination')
 
-       
         geolocator = Nominatim(user_agent="MyApp")
 
-       
-
         location = geolocator.geocode(current_location)
-        final_destination=geolocator.geocode(destination)
+        final_destination = geolocator.geocode(destination)
 
         api_endpoint = "http://localhost:8090/api/book"
         payload = {
@@ -64,6 +62,7 @@ def book_car():
                 "y": final_destination.longitude
             }
         }
+
         response = requests.post(api_endpoint, json=payload)
 
         if response.status_code == 200:
@@ -71,13 +70,12 @@ def book_car():
             data = response.json()
             car_id = data.get("car_id")
             total_time = data.get("total_time")
-            return f"Car booked successfully! Car ID: {car_id}, Total Time: {total_time}"
+            flash(f"Car booked ! :) Car ID: {car_id}, Total Time: {total_time}")
+            return redirect(url_for('book.show_map'))
         else:
             # Error response
-            return "Failed to book a car."
-
-   
-
+            flash("Failed to book a car.")
+            return redirect(url_for('book.show_map'))
 
     return "Invalid request method"
 

@@ -12,10 +12,11 @@
     <a class="action" href="{{ url_for('card.createCard') }}">Add New Card</a>
   {% endif %}
 {% endblock %}
+
 <body>
 {% block content %}
     <div id="search-form">
-        <form action="/book_car" method="POST">
+        <form action="{{ url_for('book.book_car') }}" method="POST">
             <label for="current-location">Current Location:</label>
             <input type="text" id="current_location" name="current_location">
             <br>
@@ -26,6 +27,7 @@
         </form>
     </div>
     <div id="map">{{ map | safe }}</div>
+    
 {% endblock %}
 </body>
 </html>
