@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% if booking_success == 'True' %}
+    <meta http-equiv="refresh" content="5">   
+     {% endif %}
     <title>Map</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
 </head>
@@ -24,10 +27,12 @@
             <input type="text" id="destination" name="destination">
             <br>
             <button type="submit">Book</button><br>
-            <button type="button" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Track Car</button>
-
-
-
+        </form>
+        <form action="{{ url_for('book.track_car') }}" method="POST">
+            <button type="submit" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Start Moving Booked Car to Customer</button>
+        </form>
+        <form action="{{ url_for('book.show_map') }}">
+            <button type="submit" id="refresh_car">Manual Refresh to Track Car Moving to Customer</button>
         </form>
     </div>
     <div id="map">{{ map | safe }}</div>
