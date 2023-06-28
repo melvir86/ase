@@ -23,3 +23,14 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 10. Go to root folder directory --> cd ase
 11. flask --app flaskr run --debug --host=0.0.0.0
 12. Access it from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
+
+# Logic for Booking car
+Basic changes required from Phase 2 to Phase 3
+1. Update Car table to contain current lat & long
+2. Create new Booking table that will contain all booking requests (id, user_id, car_id, source, destination, status, created_date)
+3. Change book button function to insert into Booking table
+4. 'View Booking Requests' page for drivers to Accept or Ignore requests (only show those +- 5 lat/long from their current location)
+5. Accepted requests get added into the Booking table
+6. Create more sample data for users and cars
+
+Booked Status -> Booked (no driver yet), Booking Accepted (accepted by driver), Completed
