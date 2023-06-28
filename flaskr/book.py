@@ -19,8 +19,8 @@ app = Flask(__name__)
 CAR_API_ENDPOINT = 'https://localhost-8090.codio-box.uk/api/book'
 #CAR_POSITION= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/status'
 
-CAR_API_TRACK= 'http://aliaspelican-chiefprogram-8090.codio-box.uk/api/tick'
-CAR_POSITION= 'http://aliaspelican-chiefprogram-8090.codio-box.uk/api/status'
+CAR_API_TRACK= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/tick'
+CAR_POSITION= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/status'
 
 bp = Blueprint('book', __name__)
 
@@ -142,8 +142,20 @@ def track_car():
           return redirect(url_for('book.show_map', booking_success='False'))
 
     return "Invalid request method"
+    
 
-if __name__ == '__main__':
+@bp.route('/reset_car', methods=['POST'])
+def reset_car():
+    if request.method == 'POST':
+        response = requests.get("https://biscuitinfo-controlgate-8090.codio-box.uk/api/reset")
+
+        if response.status_code == 200:
+            flash("Car seted to initial positions  successfully.")
+            return redirect(url_for('book.show_map', booking_success='False'))
+
+    return "Invalid request method"
+
+  
     app.run(debug=True)
 
 

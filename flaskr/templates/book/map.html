@@ -29,10 +29,13 @@
             <button type="submit">Book</button><br>
         </form>
         <form action="{{ url_for('book.track_car') }}" method="POST">
-            <button type="submit" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Start Moving Booked Car to Customer</button>
+            <button type="submit" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Move car to Customer</button>
         </form>
         <form action="{{ url_for('book.show_map') }}">
-            <button type="submit" id="refresh_car">Manual Refresh to Track Car Moving to Customer</button>
+            <button type="submit" id="refresh_car">Manual refresh to track</button>
+        </form>
+        <form action="{{ url_for('book.reset_car') }}" method="POST">
+            <button type="submit" id="reset_car">RESET</button>
         </form>
     </div>
     <div id="map">{{ map | safe }}</div>
