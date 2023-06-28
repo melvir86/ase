@@ -12,6 +12,7 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 5. pip3.11 install requests==2.26.0
 6. pip3.11 install geopy
 7. pip3.11 install folium
+8. pip3.11 install numpy --upgrade
 
 
 
