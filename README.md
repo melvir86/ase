@@ -45,3 +45,6 @@ To simulate end of trip via 'Simulate button'
 
 To pull ase-backend
 'git clone https://github.com/melvir86/ase-backend.git'
+
+If you need to re-init database (must do if you added new tables/columns)
+flask --app flaskr init-db
