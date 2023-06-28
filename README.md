@@ -7,10 +7,11 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 # Setting up dependencies for Codio
 1. pip3.11 install flask
 2. pip3.11 install pipenv
-3. pip install --upgrade urllib3
-4. pip install --upgrade urllib3 chardet
-5. pip install requests==2.26.0
-6. pip install geopy
+3. pip3.11 install --upgrade urllib3
+4. pip3.11 install --upgrade urllib3 chardet
+5. pip3.11 install requests==2.26.0
+6. pip3.11 install geopy
+7. pip3.11 install folium
 
 
 
