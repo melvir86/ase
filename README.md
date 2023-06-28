@@ -35,10 +35,10 @@ Basic changes required from Phase 2 to Phase 3
 
 Booked Status -> Booked (no driver yet), Booking Accepted (accepted by driver), Started, Completed
 
-When driver gets to customer
+When driver reaches customer
 1. Update booking status to Started
 
-'Simulate button'
+To simulate end of trip via 'Simulate button'
 1. Update booking status to Completed
 2. Update car table for the driver's car lat and long to be destination's lat and long
 3. Trigger refresh the page
