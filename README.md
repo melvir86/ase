@@ -33,4 +33,12 @@ Basic changes required from Phase 2 to Phase 3
 5. Accepted requests get added into the Booking table
 6. Create more sample data for users and cars
 
-Booked Status -> Booked (no driver yet), Booking Accepted (accepted by driver), Completed
+Booked Status -> Booked (no driver yet), Booking Accepted (accepted by driver), Started, Completed
+
+When driver gets to customer
+1. Update booking status to Started
+
+'Simulate button'
+1. Update booking status to Completed
+2. Update car table for the driver's car lat and long to be destination's lat and long
+3. Trigger refresh the page
