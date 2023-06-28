@@ -13,7 +13,7 @@
       <header>
         <div>
           <h1>{{ card['description'] }}</h1>
-          <div class="about">Created on {{ card['created'].strftime('%Y-%m-%d') }}</div>
+          <div class="about">Created on {{ card['created'] }}</div>
         </div>
         {% if g.user['id'] == card['user_id'] %}
           <a class="action" href="{{ url_for('card.updateCard', id=card['id']) }}">Edit Card</a>
