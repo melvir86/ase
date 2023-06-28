@@ -1,0 +1,33 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<h1>AlbaniaSuperUberApp!</h1>
+<nav>
+    {% if g.user %}
+     Welcome &nbsp;{{ g.user['username'] }}!
+     &nbsp;Role: {{ g.user['role'] }}
+      <a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      &nbsp;<a href="{{ url_for('auth.register') }}">Register</a>
+      &nbsp;<a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+    <br/>
+    &nbsp;Features:
+    &nbsp;<a href="{{ url_for('book.show_map') }}">Book Car</a>
+    &nbsp;<a href="{{ url_for('auth.logout') }}">List all Cars</a>
+    &nbsp;<a href="{{ url_for('car.listCarDetails') }}">List Car Details (driver)</a>
+    &nbsp;<a href="{{ url_for('job.listJob') }}">Job History (Driver)</a>
+    &nbsp;<a href="{{ url_for('booking.listBooking') }}">Booking History (Customer)</a>
+    &nbsp;<a href="{{ url_for('card.listCard') }}">Payment Cards</a>
+    &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Provide Feedback</a>       
+
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Car Details{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for car in cars %}
+    <article class="card">
+      <header>
+        <div>
+          <h1>{{ car['brand'] }} {{ car['model'] }}</h1>
+          <div class="about">Colour: {{ car['colour'] }}</div>
+          <div class="about">Next Service: {{ car['next_service'] }}</div>
+          <div class="about">Status: {{ car['status'] }}</div>
+        </div>
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

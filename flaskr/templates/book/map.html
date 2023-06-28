@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if booking_success == 'True' %}
+    <meta http-equiv="refresh" content="5">   
+     {% endif %}
+    <title>Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Map{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('card.createCard') }}">Add New Card</a>
+  {% endif %}
+{% endblock %}
+
+<body>
+{% block content %}
+    <div id="search-form">
+        <form action="{{ url_for('book.book_car') }}" method="POST">
+            <label for="current-location">Current Location:</label>
+            <input type="text" id="current_location" name="current_location">
+            <br>
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination">
+            <br>
+            <button type="submit">Book</button><br>
+        </form>
+        <form action="{{ url_for('book.track_car') }}" method="POST">
+            <button type="submit" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Start Moving Booked Car to Customer</button>
+        </form>
+        <form action="{{ url_for('book.show_map') }}">
+            <button type="submit" id="refresh_car">Manual Refresh to Track Car Moving to Customer</button>
+        </form>
+    </div>
+    <div id="map">{{ map | safe }}</div>
+    
+{% endblock %}
+</body>
+</html>

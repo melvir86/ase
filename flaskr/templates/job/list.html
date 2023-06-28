@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Your Jobs History{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for job in jobs %}
+    <article class="card">
+      <header>
+        <div>
+          <h1>Details of booking job that was completed on <b><u>{{ job['created'].strftime('%Y-%m-%d') }}</b></u></h1>
+        </div>
+      </header>
+      <br/>
+      <table border=1>
+        <tr>
+          <td>Picked up from</td>
+          <td>{{ job['source'] }}</td>
+        </tr>
+        <tr>
+          <td>Dropped of at</td>
+          <td>{{ job['destination'] }}</td>
+        </tr>
+        <tr>
+          <td>Your Car Brand & Model</td>
+          <td>{{ job['brand'] ~ "/" ~ job['model']}}</td>
+        </tr>
+        <tr>
+          <td>Your Car Colour</td>
+          <td>{{ job['colour'] }}</td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>{{ job['cost'] }}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{ job['status'] }}</td>        
+        </tr>
+      </table>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ card['description'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Name on Card</label>
+    <input name="name" id="name" value="{{ request.form['name'] or card['name'] }}" required>
+    <label for="number">Card Number</label>
+    <input name="number" id="number" value="{{ request.form['number'] or card['number'] }}" required>
+    <label for="expiry_month">Expiry Month</label>
+    <input name="expiry_month" id="expiry_month" value="{{ request.form['expiry_month'] or card['expiry_month'] }}" required>
+    <label for="expiry_year">Expiry Year</label>
+    <input name="expiry_year" id="expiry_year" value="{{ request.form['expiry_year'] or card['expiry_year'] }}" required>
+    <label for="cve">CVE</label>
+    <input name="cve" id="cve" value="{{ request.form['cve'] or card['cve'] }}" required>
+    <label for="description">Describe/Tag this Card</label>
+    <input name="description" id="description" value="{{ request.form['description'] or card['description'] }}" required>
+    <label for="status">Status</label>
+    <select name="status" id="status">
+        <option value="active" 
+        {% if card['status'] == "active" %} selected {% endif %}>Active</option>
+        <option value="inactive" 
+        {% if card['status'] == "inactive" %} selected {% endif %}>Inactive</option>    
+        </select>
+   <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('card.deleteCard', id=card['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete this Card" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

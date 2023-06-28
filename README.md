@@ -1,18 +1,23 @@
-# ASE
+# ase
 This is a shared code repository for Group 3's Applied Software Engineering (ASE) project
 
-# Group 3 Members
-1. Dalird BUFI
-2. Melvir SINGH
-3. Xhulio BISHTAJA
+[For instructors & testers - how to run our program]
 
-# Branches in our Project Repo
-1. main - for documentation and meeting details
-2. phase-one - for phase-one project required functionalities
-3. phase-two - for phase-two project required functionalities
-4. phase-three - for phase-three project required functionalities
+# For Phase-Two of project
+# Setting up dependencies for Codio
+1. pip3.11 install flask
+2. pip3.11 install pipenv
+3. pip install --upgrade urllib3
+4. pip install --upgrade urllib3 chardet
+5. pip install requests==2.26.0
+6. pip install geopy
 
-** The individual branches have their own README file with instructions how to run the application
 
-# Placeholder for further details to add on
-1. XX
+
+# Avoiding possible conflicts
+6. Delete existing database.db file on application/flaskr folder if it already exists prior to moving on
+
+# Starting our application
+7. Go to root folder directory --> cd ase
+8. flask --app flaskr run --debug --host=0.0.0.0
+9. Access it from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
