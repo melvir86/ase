@@ -42,3 +42,6 @@ When driver gets to customer
 1. Update booking status to Completed
 2. Update car table for the driver's car lat and long to be destination's lat and long
 3. Trigger refresh the page
+
+To pull ase-backend
+'git clone https://github.com/melvir86/ase-backend.git'
