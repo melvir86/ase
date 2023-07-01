@@ -20,7 +20,7 @@ CAR_API_ENDPOINT = 'https://localhost-8090.codio-box.uk/api/book'
 #CAR_POSITION= 'http://biscuitinfo-controlgate-8090.codio-box.uk/api/status'
 
 CAR_API_TRACK= 'http://aliaspelican-chiefprogram-8090.codio-box.uk/api/tick'
-CAR_POSITION= 'http://aliaspelican-chiefprogram-8090.codio-box.uk/api/status'
+CAR_POSITION= 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api/showCars'
 
 bp = Blueprint('book', __name__)
 
@@ -33,11 +33,10 @@ def show_map():
     session['booking_success'] = 'False' 
     response = requests.get(CAR_POSITION)
     if response.status_code == 200:
-      car_pos = response.json().get('status', [])
-      for car in car_pos:
-          currentPosition = car.get('currentPosition', {})
-          latitude = currentPosition.get('x')
-          longitude = currentPosition.get('y')
+      cars = response.json()
+      for car in cars:
+          latitude = car.get('pos_x')
+          longitude = car.get('pos_y')
           car_id = car.get('id')
           print (latitude)
           icon_path = 'https://www.clipartmax.com/png/middle/196-1961098_car-navigation-maps-for-lovers-of-long-distance-road-google-map-car.png'  
