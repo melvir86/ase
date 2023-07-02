@@ -58,6 +58,11 @@ def create_app(test_config=None):
     from . import car
     app.register_blueprint(car.bp)
 
+    from . import rating
+    app.register_blueprint(rating.bp)
+
+
+
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
