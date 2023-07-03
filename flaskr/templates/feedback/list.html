@@ -13,7 +13,7 @@
       <header>
         <div>
           <h1>{{ feedback['description'] }}</h1>
-          <div class="about">Created on {{ feedback['created'].strftime('%Y-%m-%d') }}</div>
+          <div class="about">Created on {{ feedback['created'] }}</div>
         </div>
         {% if g.user['id'] == feedback['user_id'] %}
           <a class="action" href="{{ url_for('feedback.updateFeedback', id=feedback['id']) }}">Edit Feedback</a>
