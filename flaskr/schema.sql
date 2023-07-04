@@ -56,6 +56,8 @@ CREATE TABLE car (
   colour TEXT NOT NULL,
   next_service TEXT NOT NULL,
   status TEXT NOT NULL,
+  pos_x INTEGER,
+  pos_y INTEGER,
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
@@ -67,9 +69,9 @@ CREATE TABLE car (
 
 -- INSERT INTO user (username, password, role) VALUES ('Mary', 'pbkdf2:sha256:600000$3ZBsWIwwmR8o40VJ$0545998d859e9a967d1bdd0b60076e1a7fe3a3a78e76ec69d1274608341aef12', 'Customer');
 
-INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (1, 'Mazda', '3 Hb', 'Red', '23/06/2023', 'Active');
+INSERT INTO car (user_id, brand, model, colour, next_service, status,pos_x,pos_y) VALUES (1, 'Mazda', '3 Hb', 'Red', '23/06/2023', 'Active','50','42');
 
-INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (2, 'Mazda', '6', 'Blue', '23/12/2023', 'Active');
+INSERT INTO car (user_id, brand, model, colour, next_service, status,pos_x,pos_y) VALUES (2, 'Mazda', '6', 'Blue', '23/12/2023', 'Active','42','54');
 
 INSERT INTO booking (user_id, source, destination, cost, status) VALUES (3, 'Wembley Park', 'Euston Square', '$10.50', 'Booked');
 

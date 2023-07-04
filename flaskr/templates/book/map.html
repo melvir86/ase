@@ -19,7 +19,7 @@
 <body>
 {% block content %}
     <div id="search-form">
-        <form action="{{ url_for('book.book_car') }}" method="POST">
+        <form action="{{ url_for('book.bookcar') }}" method="POST">
             <label for="current-location">Current Location:</label>
             <input type="text" id="current_location" name="current_location">
             <br>
@@ -28,8 +28,14 @@
             <br>
             <button type="submit">Book</button><br>
         </form>
-        <form action="{{ url_for('book.track_car') }}" method="POST">
-            <button type="submit" id="track_car" {{ 'disabled' if booking_success != 'True' else '' }}>Start Moving Booked Car to Customer</button>
+        <form action="{{ url_for('book.check_booking') }}" method="POST">
+            <button type="submit" id="check_booking">Click here to check if booking has been accepted</button>
+        </form>
+        <form action="{{ url_for('book.start_booking') }}" method="POST">
+            <button type="submit" id="start_booking">Simulate Moving Booked Car to Customer</button>
+        </form>
+        <form action="{{ url_for('book.complete_booking') }}" method="POST">
+            <button type="submit" id="complete_booking">Simulate Completion of Booking Job</button>
         </form>
         <form action="{{ url_for('book.show_map') }}">
             <button type="submit" id="refresh_car">Manual Refresh to Track Car Moving to Customer</button>

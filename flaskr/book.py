@@ -24,17 +24,24 @@ CAR_POSITION= 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api/showCar
 
 bp = Blueprint('book', __name__)
 
+# CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
+CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
+
 @bp.route('/show_map')
 def show_map():
     # Create a map object
     #map = folium.Map(location=[51.5074, -0.1278], zoom_start=12)
     map = folium.Map(location=[0, 0], zoom_start=2)
 
-    session['booking_success'] = 'False' 
-    response = requests.get(CAR_POSITION)
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/showCars"
+    #session['booking_success'] = 'False' 
+    response = requests.get(api_endpoint)
     if response.status_code == 200:
       cars = response.json()
+      print("Cars are", cars)
       for car in cars:
+          print("hello: ", car)
+          #hello:  {'brand': 'Mazda', 'colour': 'Red', 'created': '2023-07-04 08:34:40', 'id': 1, 'model': '3 Hb', 'next_service': '23/06/2023', 'status': 'Active', 'user_id': 1}
           latitude = car.get('pos_x')
           longitude = car.get('pos_y')
           car_id = car.get('id')
@@ -98,6 +105,37 @@ def book_car():
 
     return "Invalid request method"
 
+@bp.route('/bookcar', methods=('GET', 'POST'))
+@login_required
+def bookcar():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/bookcar"
+    if request.method == 'POST':
+        source = request.form.get('current_location')
+        destination = request.form.get('destination')
+
+        geolocator = Nominatim(user_agent="MyApp")
+        
+        payload = {
+                "uid": g.user['id'],
+                "source": source,
+                "destination": destination,
+        }
+
+        response = requests.post(api_endpoint, json=payload)
+
+        if response.status_code == 200:
+            # Successful response
+            booking = response.json()
+            print("Booking json ", booking[0]["status"])
+
+            if booking[0]["status"] == "Booked":
+                flash("Booked successfully. Waiting for driver to accept bro...")
+                session['booking_success'] = 'True'
+
+            return redirect(url_for('book.show_map'))
+
+    return render_template('book/map.html')
+
 @bp.route('/track_car', methods=['POST'])
 def track_car():
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=0)
@@ -141,6 +179,52 @@ def track_car():
           return redirect(url_for('book.show_map', booking_success='False'))
 
     return "Invalid request method"
+
+@bp.route('/check_booking', methods=['POST'])
+def check_booking():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/checkBooking"
+    bookings = ""
+    params = {'uid': g.user['id']}
+
+    response = requests.post(api_endpoint, params=params)
+
+    if response.status_code == 200:
+        # booking response
+        bookings = response.json()
+
+        if bookings[0]["status"] == "Accepted by Driver":
+            flash("Your booking has been accepted by a Driver. The Car details are as follow: XXX")
+            session['booking_success'] = 'True'
+
+            return redirect(url_for('book.show_map'))
+
+        elif bookings[0]["status"] == "Booked":
+            flash("Still waiting for a Driver bro...")
+            session['booking_success'] = 'True'
+
+            return redirect(url_for('book.show_map'))
+
+    return render_template('book/map.html')
+
+@bp.route('/start_booking', methods=['POST'])
+def start_booking():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/startBooking"
+    bookings = ""
+    params = {'uid': g.user['id']}
+            
+    return redirect(url_for('book.show_map'))
+
+    return render_template('book/map.html')
+
+@bp.route('/complete_booking', methods=['POST'])
+def complete_booking():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/completeBooking"
+    bookings = ""
+    params = {'uid': g.user['id']}
+            
+    return redirect(url_for('book.show_map'))
+
+    return render_template('book/map.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
