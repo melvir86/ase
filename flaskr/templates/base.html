@@ -13,17 +13,20 @@
     {% endif %}
     <br/>
     &nbsp;Features:
+    {% if g.user['role'] == 'driver' %}
+    &nbsp;<a href="{{ url_for('car.listCarDetails') }}">List Car Details</a>
+    &nbsp;<a href="{{ url_for('booking.listRequests') }}">View Booking Requests</a>
+    &nbsp;<a href="{{ url_for('job.listJob') }}">Job History</a>
+    &nbsp;<a href="{{ url_for('rating.driver_rating') }}">View Rating</a>
+    &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Provide Feedback</a>   
+    {% endif %}
+    {% if g.user['role'] == 'customer' %}
     &nbsp;<a href="{{ url_for('book.show_map') }}">Book Car</a>
     &nbsp;<a href="{{ url_for('auth.logout') }}">List all Cars</a>
-    &nbsp;<a href="{{ url_for('car.listCarDetails') }}">List Car Details (driver)</a>
-    &nbsp;<a href="{{ url_for('booking.listRequests') }}">View Booking Requests (Driver)</a>
-    &nbsp;<a href="{{ url_for('job.listJob') }}">Job History (Driver)</a>
-    &nbsp;<a href="{{ url_for('booking.listBooking') }}">Booking History (Customer)</a>
+    &nbsp;<a href="{{ url_for('booking.listBooking') }}">Booking History</a>
     &nbsp;<a href="{{ url_for('card.listCard') }}">Payment Cards</a>
-    &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Provide Feedback</a>  
-    &nbsp;<a href="{{ url_for('rating.driver_rating') }}">View Rating (Driver)</a>  
-        
-
+    &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Provide Feedback</a> 
+    {% endif %}
 </nav>
 <section class="content">
   <header>
