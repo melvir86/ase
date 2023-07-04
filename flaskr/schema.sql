@@ -37,7 +37,7 @@ CREATE TABLE feedback (
 CREATE TABLE booking (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
-  car_id INTEGER NOT NULL,
+  car_id INTEGER NULL,
   created TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   source TEXT NOT NULL,
   destination TEXT NOT NULL,
@@ -71,4 +71,6 @@ INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (1,
 
 INSERT INTO car (user_id, brand, model, colour, next_service, status) VALUES (2, 'Mazda', '6', 'Blue', '23/12/2023', 'Active');
 
-INSERT INTO booking (user_id, car_id, source, destination, cost, status) VALUES (3, 1, 'Wembley Park', 'Euston Square', '$10.50', 'Completed');
+INSERT INTO booking (user_id, source, destination, cost, status) VALUES (3, 'Wembley Park', 'Euston Square', '$10.50', 'Booked');
+
+INSERT INTO booking (user_id, source, destination, cost, status) VALUES (3, 'Picadilly Circus', 'Goodge Street', '$7.50', 'Booked');

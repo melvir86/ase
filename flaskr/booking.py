@@ -5,8 +5,13 @@ from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
-#hi
+
+import requests
+
 bp = Blueprint('booking', __name__)
+
+# CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
+CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
 
 @bp.route('/listBooking')
 def listBooking():
@@ -22,99 +27,46 @@ def listBooking():
     ).fetchall()
     return render_template('booking/list.html', bookings=bookings)
   
-@bp.route('/createFeedback', methods=('GET', 'POST'))
+@bp.route('/listRequests')
+def listRequests():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listRequests"
+    customer_requests = ""
+    #g.user['id']
+    params = {'uid': g.user['id']}
+
+    response = requests.post(api_endpoint, params=params)
+
+    if response.status_code == 200:
+        # Successful response
+        customer_requests = response.json()
+
+    return render_template('booking/listrequests.html', customer_requests=customer_requests)
+
+@bp.route('/<int:id>/acceptJob', methods=('POST',))
 @login_required
-def createFeedback():
-    if request.method == 'POST':
-        description = request.form['description']
-        feedback = request.form['feedback']
-        error = None
+def acceptJob(id):
 
-        if not description:
-            error = 'Description is required.'
-        if not feedback:
-            error = 'Feedback is required.'
+    #Get driver's car id first
+    car_id = get_car_id(g.user['id'])
 
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'INSERT INTO feedback (user_id, description, feedback)'
-                ' VALUES (?, ?, ?)',
-                (g.user['id'], description, feedback)
-            )
-            db.commit()
-            return redirect(url_for('feedback.listFeedback'))
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(id) + "/acceptJob"
 
-    return render_template('feedback/create.html')
+    params = {'carid': car_id}
 
-def get_card(id, check_author=True):
-    post = get_db().execute(
-        'SELECT *'
-        ' FROM card c JOIN user u ON c.user_id = u.id'
-        ' WHERE c.id = ?',
-        (id,)
-    ).fetchone()
+    response = requests.post(api_endpoint, params=params)
+    
+    if response.status_code == 200:
+        # Successful response
+        cards = response.json()
+    return redirect(url_for('booking.listRequests'))
 
-    if post is None:
-        abort(404, f"Card id {id} doesn't exist.")
+def get_car_id(id):
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(id) + "/getCarId"
+    car_id = ""
 
-    if check_author and post['user_id'] != g.user['id']:
-        abort(403)
+    response = requests.post(api_endpoint)
+    if response.status_code == 200:
+        # Successful response
+        car_id = response.json()
 
-    return post
-
-def get_feedback(id, check_author=True):
-    feedback = get_db().execute(
-        'SELECT *'
-        ' FROM feedback f JOIN user u ON f.user_id = u.id'
-        ' WHERE f.id = ?',
-        (id,)
-    ).fetchone()
-
-    if feedback is None:
-        abort(404, f"Feedback id {id} doesn't exist.")
-
-    if check_author and feedback['user_id'] != g.user['id']:
-        abort(403)
-
-    return feedback
-
-@bp.route('/<int:id>/updateFeedback', methods=('GET', 'POST'))
-@login_required
-def updateFeedback(id):
-    feedback = get_feedback(id)
-
-    if request.method == 'POST':
-        description = request.form['description']
-        feedback = request.form['feedback']
-        error = None
-
-        if not description:
-            error = 'Description is required.'
-        if not feedback:
-            error = 'Feedback is required.'
-
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'UPDATE feedback SET description = ?, feedback = ?'
-                ' WHERE id = ?',
-                (description, feedback, id)
-            )
-            db.commit()
-            return redirect(url_for('feedback.listFeedback'))
-
-    return render_template('feedback/update.html', feedback=feedback)
-
-@bp.route('/<int:id>/deleteFeedback', methods=('POST',))
-@login_required
-def deleteFeedback(id):
-    get_feedback(id)
-    db = get_db()
-    db.execute('DELETE FROM feedback WHERE id = ?', (id,))
-    db.commit()
-    return redirect(url_for('feedback.listFeedback'))
+    return car_id

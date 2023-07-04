@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}View Live Customer Booking Requests {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for customer_request in customer_requests %}
+    <article class="card">
+      <header>
+        <div>
+          <h1>{{ customer_request['status'] }}</h1>
+            <div class="about">Booked by {{ customer_request['user_id'] }} [Username is masked for confidentiality]</div>
+            <div class="about">Booked at {{ customer_request['created'] }}</div>
+        </div>
+      </header>
+      <table border=1>
+        <tr>
+          <td>Source to Pick up from</td>
+          <td>{{ customer_request['source'] }}</td>
+        </tr>
+        <tr>
+          <td>Destination to Drop off at</td>
+          <td>{{ customer_request['destination'] }}</td>
+        </tr>
+        <tr>
+          <td>Cost of Trip</td>
+          <td>{{ customer_request['cost'] }}</td>
+        </tr>
+      </table>
+      <form action="{{ url_for('booking.acceptJob', id=customer_request['id']) }}" method="post">
+        <input class="danger" type="submit" value="Accept this Job" onclick="return confirm('Are you sure you want to accept this job? Customer will receive notification of acceptance if you do');">
+      </form>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
