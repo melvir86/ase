@@ -3,68 +3,71 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
 
+import hashlib
+
+import requests
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+# CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
+CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/register"
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
-        db = get_db()
         error = None
 
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-        elif not role:
-            error = 'Role is required.'
+        payload = {
+                "username": username,
+                "password": password,
+                "role": role,
+        }
 
-        if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO user (username, password, role) VALUES (?, ?, ?)",
-                    (username, generate_password_hash(password), role),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
+        response = requests.post(api_endpoint, json=payload)
 
-        flash(error)
+        if response.status_code == 201:
+            # Successful response
+            users = response.json()
+            return redirect(url_for("auth.login"))
+        else:
+            flash(f"User {username} is already registered.")
+            return redirect(url_for("auth.register"))
 
     return render_template('auth/register.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/login"
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
-        db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ? AND role = ?', (username,role)
-        ).fetchone()
 
-        if user is None:
-            error = 'No match of user with selected role. Please try again.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+        payload = {
+                "username": username,
+                "password": password,
+                "role": role,
+        }
 
-        if error is None:
+        response = requests.post(api_endpoint, json=payload)
+
+        if response.status_code == 200:
+            # Successful response
+            user = response.json()
             session.clear()
-            session['user_id'] = user['id']
-            session['role'] = user['role']
+            session['user_id'] = user[0]['id']
+            session['role'] = user[0]['role']
             return redirect(url_for('index'))
-
-        flash(error)
+        else:
+            flash(f"No match of user with selected role. Please try again.")
 
     return render_template('auth/login.html')
 
@@ -90,6 +93,9 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(user_id) + "/loadUser"
+
+        response = requests.post(api_endpoint)
+        if response.status_code == 200:
+            # Successful response
+            g.user = response.json()[0]

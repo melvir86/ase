@@ -13,19 +13,20 @@ bp = Blueprint('booking', __name__)
 # CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
 CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
 
-@bp.route('/listBooking')
-def listBooking():
-    db = get_db()
-    bookings = db.execute(
-        'SELECT *'
-        ' FROM booking b '
-        ' JOIN user u ON b.user_id = u.id'
-        ' JOIN car c ON b.car_id = c.id'
-        ' WHERE b.user_id = ?'
-        ' ORDER BY created DESC',
-        (g.user['id'],)
-    ).fetchall()
-    return render_template('booking/list.html', bookings=bookings)
+@bp.route('/listBookings')
+def listBookings():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listBookings"
+    booking_history = ""
+    #g.user['id']
+    params = {'uid': g.user['id']}
+
+    response = requests.post(api_endpoint, params=params)
+
+    if response.status_code == 200:
+        # Successful response
+        booking_history = response.json()
+
+    return render_template('booking/listhistory.html', booking_history=booking_history)
   
 @bp.route('/listRequests')
 def listRequests():

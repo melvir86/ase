@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
-  {% for booking in bookings %}
+  {% for booking in booking_history %}
     <article class="card">
       <header>
         <div>
-          <h1>Booking details of booking that was completed on <b><u>{{ booking['created'].strftime('%Y-%m-%d') }}</b></u></h1>
+          <h1>Booking details of booking that was completed on <b><u>{{ booking['created'] }}</b></u></h1>
         </div>
       </header>
       <br/>
