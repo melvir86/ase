@@ -25,7 +25,7 @@ CAR_POSITION= 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api/showCar
 bp = Blueprint('book', __name__)
 
 # CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
+CODIO_SUBDOMAIN_ENDPOINT = 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api'
 
 @bp.route('/show_map')
 def show_map():
@@ -140,7 +140,7 @@ def bookcar():
 def track_car():
     map = folium.Map(location=[51.5074, -0.1278], zoom_start=0)
     session['booking_success'] = 'True' 
-    print(session['booking_success'])
+    
 
   #while loop calling the tick api
   #we keep checking if car ID position (lat, long) == current_location x and y
@@ -208,13 +208,29 @@ def check_booking():
 
 @bp.route('/start_booking', methods=['POST'])
 def start_booking():
-    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/startBooking"
-    bookings = ""
-    params = {'uid': g.user['id']}
-            
-    return redirect(url_for('book.show_map'))
+ 
+    # Get current location string from the form
+    current_location = request.form.get('current_location')
+    geolocator = Nominatim(user_agent="MyApp")
 
-    return render_template('book/map.html')
+    location = geolocator.geocode(current_location)
+    print(location.latitude)
+    print(location.longitude)
+    
+    payload = {'source_x': int(location.latitude), 'source_y': (location.longitude)}
+    response = requests.post(CODIO_SUBDOMAIN_ENDPOINT + "/api/updatePosition", json=payload)
+
+    if response.status_code == 200:
+        flash("Camed")
+        return redirect(url_for('book.show_map'))
+    else:
+        flash("Failed to update car's position")
+        return redirect(url_for('book.show_map'))
+    
+   
+   
+    
+  
 
 @bp.route('/complete_booking', methods=['POST'])
 def complete_booking():

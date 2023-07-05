@@ -13,7 +13,7 @@ import requests
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 # CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
+CODIO_SUBDOMAIN_ENDPOINT = 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api'
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
