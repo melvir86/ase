@@ -29,16 +29,16 @@
             <button type="submit">Book</button><br>
         </form>
         <form action="{{ url_for('book.check_booking') }}" method="POST">
-            <button type="submit" id="check_booking">Click here to check if booking has been accepted</button>
+            <button type="submit" id="check_booking">Step 1 - Check if accepted by Driver</button>
         </form>
         <form action="{{ url_for('book.start_booking') }}" method="POST">
-            <button type="submit" id="start_booking">Simulate Moving Booked Car to Customer</button>
+            <button type="submit" id="start_booking">Step 2 - Simulate Starting of Ride</button>
         </form>
         <form action="{{ url_for('book.complete_booking') }}" method="POST">
-            <button type="submit" id="complete_booking">Simulate Completion of Booking Job</button>
+            <button type="submit" id="complete_booking">Step 3 - Simulate Completion of Ride</button>
         </form>
         <form action="{{ url_for('book.show_map') }}">
-            <button type="submit" id="refresh_car">Manual Refresh to Track Car Moving to Customer</button>
+            <button type="submit" id="refresh_car">Phase 2 Function - Track Car Moving to Customer</button>
         </form>
     </div>
     <div id="map">{{ map | safe }}</div>

@@ -38,14 +38,10 @@ def show_map():
     response = requests.get(api_endpoint)
     if response.status_code == 200:
       cars = response.json()
-      print("Cars are", cars)
       for car in cars:
-          print("hello: ", car)
-          #hello:  {'brand': 'Mazda', 'colour': 'Red', 'created': '2023-07-04 08:34:40', 'id': 1, 'model': '3 Hb', 'next_service': '23/06/2023', 'status': 'Active', 'user_id': 1}
           latitude = car.get('pos_x')
           longitude = car.get('pos_y')
           car_id = car.get('id')
-          print (latitude)
           icon_path = 'https://www.clipartmax.com/png/middle/196-1961098_car-navigation-maps-for-lovers-of-long-distance-road-google-map-car.png'  
           icon = folium.CustomIcon(icon_image=icon_path, icon_size=(25, 25)) 
           folium.Marker(
@@ -130,6 +126,8 @@ def bookcar():
 
             if booking[0]["status"] == "Booked":
                 flash("Booked successfully. Waiting for driver to accept bro...")
+                session['source'] = source
+                session['destination'] = destination
                 session['booking_success'] = 'True'
 
             return redirect(url_for('book.show_map'))
@@ -173,7 +171,6 @@ def track_car():
                   if (car2.get('id') == session['car_id']):
                     currentPosition2 = car2.get('currentPosition', {})
                     latitude = currentPosition2.get('x')
-                    print(latitude)
                     longitude = currentPosition.get('y')
 
           return redirect(url_for('book.show_map', booking_success='False'))
@@ -195,6 +192,8 @@ def check_booking():
         if bookings[0]["status"] == "Accepted by Driver":
             flash("Your booking has been accepted by a Driver. The Car details are as follow: XXX")
             session['booking_success'] = 'True'
+            session['booking_id'] = bookings[0]["id"]
+            session['car_id'] = bookings[0]["car_id"]
 
             return redirect(url_for('book.show_map'))
 
@@ -208,40 +207,45 @@ def check_booking():
 
 @bp.route('/start_booking', methods=['POST'])
 def start_booking():
- 
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/startBooking"
     # Get current location string from the form
-    current_location = request.form.get('current_location')
+    #current_location = request.form.get('current_location')
+    current_location = session['source']
     geolocator = Nominatim(user_agent="MyApp")
 
     location = geolocator.geocode(current_location)
-    print(location.latitude)
-    print(location.longitude)
+    print("Current location is ", location.latitude, location.longitude)
     
-    payload = {'source_x': int(location.latitude), 'source_y': (location.longitude)}
-    response = requests.post(CODIO_SUBDOMAIN_ENDPOINT + "/api/updatePosition", json=payload)
+    payload = {'source_x': int(location.latitude), 'source_y': int(location.longitude), 'car_id': session['car_id'], 'booking_id': session['booking_id']}
+    response = requests.post(api_endpoint, json=payload)
 
     if response.status_code == 200:
-        flash("Camed")
+        flash("Driver has arrived at your location which is XXX. Ride has started!")
         return redirect(url_for('book.show_map'))
     else:
         flash("Failed to update car's position")
         return redirect(url_for('book.show_map'))
     
-   
-   
-    
-  
-
 @bp.route('/complete_booking', methods=['POST'])
 def complete_booking():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/completeBooking"
-    bookings = ""
-    params = {'uid': g.user['id']}
-            
-    return redirect(url_for('book.show_map'))
+    # Get current location string from the form
+    #destination = request.form.get('destination')
+    destination = session['destination']
+    geolocator = Nominatim(user_agent="MyApp")
 
-    return render_template('book/map.html')
+    location = geolocator.geocode(destination)
+    print("Destination is ", location.latitude, location.longitude)
+    
+    payload = {'destination_x': int(location.latitude), 'destination_y': int(location.longitude), 'car_id': session['car_id'], 'booking_id': session['booking_id']}
+    response = requests.post(api_endpoint, json=payload)
 
+    if response.status_code == 200:
+        flash("Your ride has completed successfuly at your location which is XXX. Pls rate your driver!")
+        return redirect(url_for('book.show_map'))
+    else:
+        flash("Failed to update car's position")
+        return redirect(url_for('book.show_map'))
 if __name__ == '__main__':
     app.run(debug=True)
 
