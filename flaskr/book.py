@@ -25,7 +25,7 @@ CAR_POSITION= 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api/showCar
 bp = Blueprint('book', __name__)
 
 # CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api'
+CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
 
 @bp.route('/show_map')
 def show_map():

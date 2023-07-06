@@ -11,7 +11,7 @@ import requests
 bp = Blueprint('booking', __name__)
 
 # CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api'
+CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
 
 @bp.route('/listBookings')
 def listBookings():
@@ -52,7 +52,7 @@ def acceptJob(id):
 
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(id) + "/acceptJob"
 
-    params = {'carid': car_id}
+    params = {'carid': car_id[0]['id']}
 
     response = requests.post(api_endpoint, params=params)
     
