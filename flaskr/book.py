@@ -22,10 +22,9 @@ CAR_API_ENDPOINT = 'https://localhost-8090.codio-box.uk/api/book'
 CAR_API_TRACK= 'http://aliaspelican-chiefprogram-8090.codio-box.uk/api/tick'
 CAR_POSITION= 'https://natashaepisode-airlinelogic-8080.codio-box.uk/api/showCars'
 
-bp = Blueprint('book', __name__)
+from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOINT
 
-# CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
+bp = Blueprint('book', __name__)
 
 @bp.route('/show_map')
 def show_map():

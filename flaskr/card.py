@@ -8,10 +8,9 @@ from flaskr.db import get_db
 
 import requests
 
-bp = Blueprint('card', __name__)
+from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOINT
 
-# CHANGE THE BELOW BASED ON YOUR OWN CODIO SUBDOMAIN FOR APPLICATION TO WORK CORRECTLY
-CODIO_SUBDOMAIN_ENDPOINT = 'https://platemessage-jargoncannon-8080.codio-box.uk/api'
+bp = Blueprint('card', __name__)
 
 @bp.route('/')
 def index():
