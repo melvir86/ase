@@ -7,44 +7,10 @@
 {% block content %}
   <h2>Driver Rating</h2>
   <p>Your Rating: {{ rating }}</p>
-  <p>Total Ratings: {{ num_ratings }}</p>
-  <p>Average Rating: {{ average_rating }}</p>
-
-  <h3>Ratings </h3>
-  <div class="rating-bar">
-    <div class="rating-bar-segment" style="width: {{ (excellent_count / num_ratings) * 100 }}%; background-color: #4caf50;">
-      Excellent ({{ excellent_count }})
-    </div>
-    <div class="rating-bar-segment" style="width: {{ (good_count / num_ratings) * 100 }}%; background-color: #ff9800;">
-      Good ({{ good_count }})
-    </div>
-    <div class="rating-bar-segment" style="width: {{ (fair_count / num_ratings) * 100 }}%; background-color: #2196f3;">
-      Fair ({{ fair_count }})
-    </div>
-    <div class="rating-bar-segment" style="width: {{ (poor_count / num_ratings) * 100 }}%; background-color: #9c27b0;">
-      Poor ({{ poor_count }})
-    </div>
-    <div class="rating-bar-segment" style="width: {{ (very_poor_count / num_ratings) * 100 }}%; background-color: #f44336;">
-      Very Poor ({{ very_poor_count }})
-    </div>
-  </div>
+  
 
   <style>
-    .rating-bar {
-      width: 100%;
-      height: 30px;
-      background-color: #ccc;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .rating-bar-segment {
-      height: 100%;
-      float: left;
-      color: #fff;
-      text-align: center;
-      line-height: 30px;
-    }
+   
   </style>
 {% endblock %}
 
