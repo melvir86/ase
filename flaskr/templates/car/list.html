@@ -2,11 +2,17 @@
 
 {% block header %}
   <h1>{% block title %}Car Details{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('car.createCar') }}">Add New Car</a>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
   {% for car in cars %}
     <article class="card">
+        {% if g.user['id'] == car['user_id'] %}
+          <a class="action" href="{{ url_for('car.updateCar', id=car['id']) }}">Edit Car</a>
+        {% endif %}
       <header>
         <div>
           <h1>{{ car['brand'] }} {{ car['model'] }}</h1>

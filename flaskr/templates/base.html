@@ -14,7 +14,7 @@
     <br/>
     &nbsp;Features:
     {% if g.user['role'] == 'Driver' %}
-    &nbsp;<a href="{{ url_for('car.listCarDetails') }}">List Car Details</a>
+    &nbsp;<a href="{{ url_for('car.listCarDetails') }}">Car Details</a>
     &nbsp;<a href="{{ url_for('booking.listRequests') }}">View Booking Requests</a>
     &nbsp;<a href="{{ url_for('job.listJob') }}">Job History</a>
     &nbsp;<a href="{{ url_for('rating.driver_rating') }}">View Rating</a>

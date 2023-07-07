@@ -61,10 +61,13 @@ def login():
         if response.status_code == 200:
             # Successful response
             user = response.json()
-            session.clear()
-            session['user_id'] = user[0]['id']
-            session['role'] = user[0]['role']
-            return redirect(url_for('index'))
+            if user:
+                session.clear()
+                session['user_id'] = user[0]['id']
+                session['role'] = user[0]['role']
+                return redirect(url_for('index'))
+            else:
+                flash(f"No match of user with selected role. Please try again.")
         else:
             flash(f"No match of user with selected role. Please try again.")
 

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Car with ID: "{{ car['id'] }}"{% endblock %}</h1>
+  <h1>Edit Service Date: "{{ car['next_service'] }}"</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="brand">Your Car Brand</label>
+    <input name="brand" id="brand" value="{{ request.form['brand'] or car['brand'] }}" required>
+    <label for="model">Your Car Model</label>
+    <input name="model" id="model" value="{{ request.form['model'] or car['model'] }}" required>
+    <label for="colour">Your Car Colour</label>
+    <input name="colour" id="colour" value="{{ request.form['colour'] or car['colour'] }}" required>
+    <label for="next_service">Your Car's Next Service Date</label>
+    <input type="date" name="next_service" id="next_service" value="{{ request.form['next_service'] or car['next_service'] }}" required>
+    <label for="status">Your Car Status</label>
+    <select name="status" id="status">
+        <option value="Active" 
+        {% if car['status'] == "Active" %} selected {% endif %}>Active</option>
+        <option value="Inactive" 
+        {% if car['status'] == "Inactive" %} selected {% endif %}>Inactive</option>    
+    </select>
+    <input type="submit" value="Save">
+  </form>
+
+  <hr>
+  <form action="{{ url_for('car.deleteCar', id=car['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete this Car" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

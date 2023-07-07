@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add New Car{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="brand">Your Car Brand</label>
+    <input name="brand" id="brand" value="{{ request.form['brand'] }}" required>
+    <label for="model">Your Car Model</label>
+    <input name="model" id="model" value="{{ request.form['model'] }}" required>
+    <label for="colour">Your Car Colour</label>
+    <input name="colour" id="brand" value="{{ request.form['colour'] }}" required>
+    <label for="brand">Your Car's Next Service Date</label>
+    <input type="date" name="next_service" id="next_service" value="{{ request.form['next_service'] }}" required>
+    <label for="status">Your Car Status</label>
+    <select name="status" id="status">
+    <option value="Active">Active</option>
+    <option value="Active">Inactive</option>
+    </select>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
