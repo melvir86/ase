@@ -31,6 +31,19 @@ def listFeedback():
 
     return render_template('feedback/list.html', feedbacks=feedbacks)
 
+@bp.route('/listAllFeedback')
+def listAllFeedback():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listAllFeedback"
+    feedbacks = ""
+
+    response = requests.post(api_endpoint)
+
+    if response.status_code == 200:
+        # Successful response
+        feedbacks = response.json()
+
+    return render_template('feedback/listAll.html', feedbacks=feedbacks)
+
 @bp.route('/createFeedback', methods=('GET', 'POST'))
 @login_required
 def createFeedback():
