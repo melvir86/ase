@@ -197,6 +197,7 @@ def check_booking():
             api_endpoint2 = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(bookings[0]["car_id"]) + "/getCarDetails"
             response2 = requests.post(api_endpoint2)
             car = response2.json()
+            print("car", car)
 
             message = "The Car details are as follows : " + car[0]["colour"] + " " + car[0]["brand"] + " " + car[0]["model"] + ". The Driver's id (username is masked) is : " + str(car[0]["user_id"]) + "."
             flash(message)
@@ -259,16 +260,13 @@ def complete_booking():
 def rate_driver():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/rateDriver"
     # Get current location string from the form
-    #destination = request.form.get('destination')
-
-    location = geolocator.geocode(destination)
-    print("Destination is ", location.latitude, location.longitude)
+    rating = request.form.get('rating')
     
-    payload = {'destination_x': int(location.latitude), 'destination_y': int(location.longitude), 'car_id': session['car_id'], 'booking_id': session['booking_id']}
+    payload = {'rating': rating, 'car_id': session['car_id']}
     response = requests.post(api_endpoint, json=payload)
 
     if response.status_code == 200:
-        message = "Your ride has completed successfuly at your destination which is " + destination + ". Pls rate your driver to end the flow!"
+        message = "You have rated your Driver successfully with rating of " + rating + ". Thank you for riding with us!"
         flash(message)
         return redirect(url_for('book.show_map'))
     else:
