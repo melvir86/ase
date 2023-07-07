@@ -124,7 +124,7 @@ def bookcar():
             print("Booking json ", booking[0]["status"])
 
             if booking[0]["status"] == "Booked":
-                flash("Booked successfully. Waiting for driver to accept bro...")
+                flash("Booked successfully. Waiting for driver to accept...")
                 session['source'] = source
                 session['destination'] = destination
                 session['booking_success'] = 'True'
@@ -189,15 +189,22 @@ def check_booking():
         bookings = response.json()
 
         if bookings[0]["status"] == "Accepted by Driver":
-            flash("Your booking has been accepted by a Driver. The Car details are as follow: XXX")
+            flash("Your booking has been accepted by a Driver.")
             session['booking_success'] = 'True'
             session['booking_id'] = bookings[0]["id"]
             session['car_id'] = bookings[0]["car_id"]
 
+            api_endpoint2 = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(bookings[0]["car_id"]) + "/getCarDetails"
+            response2 = requests.post(api_endpoint2)
+            car = response2.json()
+
+            message = "The Car details are as follows : " + car[0]["colour"] + " " + car[0]["brand"] + " " + car[0]["model"] + ". The Driver's id (username is masked) is : " + str(car[0]["user_id"]) + "."
+            flash(message)
+
             return redirect(url_for('book.show_map'))
 
         elif bookings[0]["status"] == "Booked":
-            flash("Still waiting for a Driver bro...")
+            flash("Still waiting for a Driver...")
             session['booking_success'] = 'True'
 
             return redirect(url_for('book.show_map'))
@@ -219,7 +226,8 @@ def start_booking():
     response = requests.post(api_endpoint, json=payload)
 
     if response.status_code == 200:
-        flash("Driver has arrived at your location which is XXX. Ride has started!")
+        message = "Driver has arrived at your location which is " + current_location + ". Ride has started."
+        flash(message)
         return redirect(url_for('book.show_map'))
     else:
         flash("Failed to update car's position")
@@ -240,12 +248,32 @@ def complete_booking():
     response = requests.post(api_endpoint, json=payload)
 
     if response.status_code == 200:
-        flash("Your ride has completed successfuly at your location which is XXX. Pls rate your driver!")
+        message = "Your ride has completed successfuly at your destination which is " + destination + ". Pls rate your driver to end the flow!"
+        flash(message)
         return redirect(url_for('book.show_map'))
     else:
         flash("Failed to update car's position")
         return redirect(url_for('book.show_map'))
+
+@bp.route('/rate_driver', methods=['POST'])
+def rate_driver():
+    api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/rateDriver"
+    # Get current location string from the form
+    #destination = request.form.get('destination')
+
+    location = geolocator.geocode(destination)
+    print("Destination is ", location.latitude, location.longitude)
+    
+    payload = {'destination_x': int(location.latitude), 'destination_y': int(location.longitude), 'car_id': session['car_id'], 'booking_id': session['booking_id']}
+    response = requests.post(api_endpoint, json=payload)
+
+    if response.status_code == 200:
+        message = "Your ride has completed successfuly at your destination which is " + destination + ". Pls rate your driver to end the flow!"
+        flash(message)
+        return redirect(url_for('book.show_map'))
+    else:
+        flash("Failed to update car's position")
+        return redirect(url_for('book.show_map'))
+
 if __name__ == '__main__':
     app.run(debug=True)
-
-
