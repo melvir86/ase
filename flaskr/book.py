@@ -41,13 +41,18 @@ def show_map():
           latitude = car.get('pos_x')
           longitude = car.get('pos_y')
           car_id = car.get('id')
-          icon_path = 'https://www.clipartmax.com/png/middle/196-1961098_car-navigation-maps-for-lovers-of-long-distance-road-google-map-car.png'  
+          car_model=car.get('model')
+          car_brand=car.get('brand')
+          icon_path = 'https://w7.pngwing.com/pngs/733/606/png-transparent-scuderia-ferrari-laferrari-car-formula-1-ferrari-logo-signage-ferrari-thumbnail.png'  
           icon = folium.CustomIcon(icon_image=icon_path, icon_size=(25, 25)) 
+          popup_content = f"<div style='font-size: 16px;'><b>{car_brand} {car_model}</b></div>" \
+               f"<div style='font-size: 14px;'>Car ID: {car_id}</div>"
+
           folium.Marker(
-              location=[latitude, longitude],
-              popup=f"Car ID is : {car_id}",
-              icon=icon
-          ).add_to(map)
+            location=[latitude, longitude],
+            popup=folium.Popup(popup_content, max_width=300),
+            icon=icon
+            ).add_to(map)
     booking_success = request.args.get('booking_success', 'False')     
     return render_template('book/map.html', map=map._repr_html_(), booking_success=booking_success)
 
