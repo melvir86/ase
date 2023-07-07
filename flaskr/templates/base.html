@@ -28,7 +28,8 @@
     &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Provide Feedback</a> 
     {% endif %}
     {% if g.user['role'] == 'Provider' %}
-    &nbsp;<a href="{{ url_for('auth.logout') }}">Show all Cars</a>
+    &nbsp;<a href="{{ url_for('auth.logout') }}">Log Out</a>
+    &nbsp;<a href="{{ url_for('provider.show_car') }}">Show Car</a>
     &nbsp;<a href="{{ url_for('feedback.listFeedback') }}">Show all Feedback</a> 
     {% endif %}
 </nav>

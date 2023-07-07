@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if booking_success == 'True' %}
+    <meta http-equiv="refresh" content="5">   
+     {% endif %}
+    <title>Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Map{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('card.createCard') }}">Add New Card</a>
+    
+  {% endif %}
+{% endblock %}
+
+<body>
+{% block content %}
+    
+        
+    <div id="map">{{ map | safe }}</div>
+    
+{% endblock %}
+</body>
+</html>
