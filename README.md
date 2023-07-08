@@ -16,7 +16,7 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 
 # Starting our application
 10. Go to root folder directory --> cd ase
-11. Edit flaskr/properties.py to update with the latest codio-subdomain so that it will connect to the backend services correctly
+11. Edit flaskr/properties.py to update with the latest codio-subdomain so that it will connect to the backend services correctly <br>
 (for eg. codio_subdomain_endpoint = 'https://codio-domainname1-codio-domainname2-8080.codio-box.uk/api')
 12. flask --app flaskr run --debug --host=0.0.0.0
 13. Make sure ase-backend is also running (follow steps at https://github.com/melvir86/ase-backend/tree/phase-three)
