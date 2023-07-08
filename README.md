@@ -4,7 +4,7 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 [For instructors & testers - how to run our program]
 
 # For Phase-Three of project
-# Setting up dependencies for Codio (if you're not testing on any of own existing Codio environments and setting up a new one. if not, you can skip this step)
+# Setting up dependencies for Codio (if you're testing on any of own existing Codio environments that are alreadys set up and working, you can skip this step and move to Starting our application step)
 1. pip3.11 install flask
 2. pip3.11 install pipenv
 3. pip3.11 install --upgrade urllib3
