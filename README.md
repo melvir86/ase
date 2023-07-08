@@ -22,8 +22,6 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 13. Make sure ase-backend is also running (follow steps at https://github.com/melvir86/ase-backend/tree/phase-three)
 14. Access ase (frontend) from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
 15. You can use the below sample users to try out the flow (you also have the option of registering your own users to try the flow out)
-Customer - Mary / Password123 / Customer
-
-Driver - DriverRobert / Password123 / Driver
-
+Customer - Mary / Password123 / Customer <br>
+Driver - DriverRobert / Password123 / Driver <br>
 Provider - Alan / Password123 / Provider
