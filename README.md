@@ -4,7 +4,7 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 [For instructors & testers - how to run our program]
 
 # For Phase-Three of project
-# Setting up dependencies for Codio (if you're testing on any of own existing Codio environments that are alreadys set up and working, you can skip this step and move to Starting our application step)
+# Setting up dependencies for Codio (if you're testing on any of own existing Codio environments that are already set up and working, you can skip this step and move to Starting our application step)
 1. pip3.11 install flask
 2. pip3.11 install pipenv
 3. pip3.11 install --upgrade urllib3
@@ -19,4 +19,9 @@ This is a shared code repository for Group 3's Applied Software Engineering (ASE
 11. Edit flaskr/properties.py to update with the latest codio-subdomain so that it will connect to the backend services correctly
 (for eg. codio_subdomain_endpoint = 'https://codio-domainname1-codio-domainname2-8080.codio-box.uk/api')
 12. flask --app flaskr run --debug --host=0.0.0.0
-13. Access it from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
+13. Make sure ase-backend is also running (follow steps at https://github.com/melvir86/ase-backend/tree/phase-three)
+14. Access ase (frontend) from your browser at https://[codio-domainname1]-[codio-domainname2]-5000.codio-box.uk/
+15. You can use the below sample users to try out the flow (you also have the option of registering your own users to try the flow out)
+Customer - Mary / Password123 / Customer
+Driver - DriverRobert / Password123 / Driver
+Provider - Alan / Password123 / Provider
