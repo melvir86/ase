@@ -11,7 +11,7 @@ import requests
 from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOINT
 
 bp = Blueprint('job', __name__)
-
+#Lisint the job of the exact driver with passing its own login id.
 @bp.route('/listJob')
 def listJob():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listJob"

@@ -11,12 +11,12 @@ import requests
 from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOINT
 
 bp = Blueprint('rating', __name__)
-
+#List all the cards.
 @bp.route('/listCard')
 def listCard():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listCard"
     cards = ""
-    #g.user['id']
+    #g.user['id'] making sure listing the cards of the user.
     params = {'uid': g.user['id']}
 
     response = requests.post(api_endpoint, params=params)
@@ -26,7 +26,7 @@ def listCard():
         cards = response.json()
 
     return render_template('card/list.html', cards=cards)
-
+#Driver rating function
 @bp.route('/driver_rating')
 def driver_rating():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/driverRating"

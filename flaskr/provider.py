@@ -27,7 +27,8 @@ def show_car():
     map = folium.Map(location=[0, 0], zoom_start=2)
 
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/showCars"
-    #session['booking_success'] = 'False' 
+    #session['booking_success'] = 'False'
+    #Print all the car db positions. 
     response = requests.get(api_endpoint)
     if response.status_code == 200:
       cars = response.json()
