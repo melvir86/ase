@@ -5,14 +5,40 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Driver Rating</h2>
-  <p>Your Rating: {{ rating }}</p>
-  
+  <p>Your rating:</p>
+  <div class="rating">
+    {% for i in range(10, 0, -1) %}
+      <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if rating|int == i %}checked{% endif %} disabled/>
+      <label for="star{{ i }}" {% if rating|int >= i %}class="filled"{% endif %}></label>
+    {% endfor %}
+  </div>
 
   <style>
-   
+    .rating {
+      unicode-bidi: bidi-override;
+      direction: rtl;
+      text-align: center;
+    }
+
+    .rating > input {
+      display: none;
+    }
+
+    .rating > label:before {
+      content: '\2605';
+      font-size: 2rem;
+      color: #ccc;
+    }
+
+    .rating > label.filled:before,
+    .rating > label:hover:before,
+    .rating > input:checked ~ label:before,
+    .rating > input:checked ~ label ~ input:checked ~ label:before {
+      color: #ffc107;
+    }
   </style>
 {% endblock %}
+
 
 
 
