@@ -34,6 +34,8 @@ def show_car():
     response = requests.get(api_endpoint)
     if response.status_code == 200:
         #Getting all the json response from the cars Db.
+      cars = response.json()
+      for car in cars:
 
           latitude = car.get('pos_x')
           longitude = car.get('pos_y')
