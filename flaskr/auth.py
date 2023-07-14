@@ -14,6 +14,7 @@ from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOI
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 #Function that takes the from input as payloads to pass it to the user table.
+
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/register"
@@ -22,6 +23,7 @@ def register():
         password = request.form['password']
         role = request.form['role']
         error = None
+        #Sending the payload 
 
         payload = {
                 "username": username,
@@ -32,7 +34,8 @@ def register():
         response = requests.post(api_endpoint, json=payload)
 
         if response.status_code == 201:
-            # Successful response
+            #Successful response
+
             users = response.json()
             return redirect(url_for("auth.login"))
         else:
@@ -40,15 +43,19 @@ def register():
             return redirect(url_for("auth.register"))
 
     return render_template('auth/register.html')
-#function that checks the validity of the login credentials.
+#Function that checks the validity of the login credentials.
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/login"
+    #Check if the method request is POST
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
         error = None
+        #Sending the payload.
 
         payload = {
                 "username": username,
@@ -73,11 +80,12 @@ def login():
 
     return render_template('auth/login.html')
 #Logs the user out .
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
-# It adds a layer of authentication by checking if a user is logged in before allowing access to the view. If the user is not logged in (g.user is None), the function redirects the user to the login page. If the user is logged in, the original view function is executed.
+#It adds a layer of authentication by checking if a user is logged in before allowing access to the view. If the user is not logged in (g.user is None), the function redirects the user to the login page. If the user is logged in, the original view function is executed.
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -87,7 +95,7 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-#this function ,If the request is successful (status code 200), the user's data is stored in the global g object as g.user. If the user is not logged in (user_id is None), g.user is set to None.
+#This function ,If the request is successful (status code 200), the user's data is stored in the global g object as g.user. If the user is not logged in (user_id is None), g.user is set to None.
 
 
 @bp.before_app_request

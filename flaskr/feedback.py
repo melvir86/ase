@@ -16,12 +16,14 @@ bp = Blueprint('feedback', __name__)
 def index():
     return render_template('card/index.html')
 #Lisitng the feedback function.
+
 @bp.route('/listFeedback')
 def listFeedback():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listFeedback"
     feedbacks = ""
     #g.user['id']
-    #Make sure which user has done the feedback
+    #Make sure which user has done the feedback.
+
     params = {'uid': g.user['id']}
 
     response = requests.post(api_endpoint, params=params)
@@ -32,6 +34,7 @@ def listFeedback():
 
     return render_template('feedback/list.html', feedbacks=feedbacks)
 #Same as the function above.
+
 @bp.route('/listAllFeedback')
 def listAllFeedback():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listAllFeedback"
@@ -41,20 +44,24 @@ def listAllFeedback():
 
     if response.status_code == 200:
         # Successful response
+
         feedbacks = response.json()
 
     return render_template('feedback/listAll.html', feedbacks=feedbacks)
-#Create new feedback
+#Create new feedback.
+
 @bp.route('/createFeedback', methods=('GET', 'POST'))
 @login_required
 def createFeedback():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/createFeedback"
     if request.method == 'POST':
         #Getting the feedback from the form with 2 values.
+
         description = request.form['description']
         feedback = request.form['feedback']
         error = None
-    #Passing the values as a payload to update the feedback table.
+        #Passing the values as a payload to update the feedback table.
+
         payload = {
                 "uid": g.user['id'],
                 "description" : request.form['description'],
@@ -70,6 +77,7 @@ def createFeedback():
             return redirect(url_for('feedback.listFeedback'))
 
     return render_template('feedback/create.html')
+
 #Getting the feedback from the db
 def get_feedback(id, check_author=True):
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/" + str(id) + "/getFeedback"
@@ -82,6 +90,7 @@ def get_feedback(id, check_author=True):
 
     return feedback
 #Updating the feedback with feedback_id as filtering.
+
 @bp.route('/<int:id>/updateFeedback', methods=('GET', 'POST'))
 @login_required
 def updateFeedback(id):
@@ -93,6 +102,7 @@ def updateFeedback(id):
         feedback_info = request.form['feedback']
         error = None
 #Passing the values to api to update the feedback certain row in the db.
+
         payload = {
                 "uid": g.user['id'],
                 "description" : request.form['description'],
@@ -101,6 +111,7 @@ def updateFeedback(id):
 
         response = requests.post(api_endpoint, json=payload)
 #Checking the api response status.
+
         if response.status_code == 200:
             # Successful response
             feedbacks = response.json()
@@ -109,6 +120,7 @@ def updateFeedback(id):
 
     return render_template('feedback/update.html', feedback=feedback[0])
 #The same logic as code above but the sql command its not update but DELETE.
+
 @bp.route('/<int:id>/deleteFeedback', methods=('POST',))
 @login_required
 def deleteFeedback(id):

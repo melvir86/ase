@@ -27,6 +27,7 @@ def listCard():
 
     return render_template('card/list.html', cards=cards)
 #Driver rating function
+
 @bp.route('/driver_rating')
 def driver_rating():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/driverRating"

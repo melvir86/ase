@@ -11,6 +11,7 @@ import requests
 from flaskr.properties import codio_subdomain_endpoint as CODIO_SUBDOMAIN_ENDPOINT
 
 bp = Blueprint('booking', __name__)
+#List booking function.
 
 @bp.route('/listBookings')
 def listBookings():
@@ -26,7 +27,7 @@ def listBookings():
         booking_history = response.json()
 
     return render_template('booking/listhistory.html', booking_history=booking_history)
-  
+#List request function  
 @bp.route('/listRequests')
 def listRequests():
     api_endpoint = CODIO_SUBDOMAIN_ENDPOINT + "/listRequests"
@@ -41,6 +42,7 @@ def listRequests():
         customer_requests = response.json()
 
     return render_template('booking/listrequests.html', customer_requests=customer_requests)
+#Accept the job function.
 
 @bp.route('/<int:id>/acceptJob', methods=('POST',))
 @login_required
